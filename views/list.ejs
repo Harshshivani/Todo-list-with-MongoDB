@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--Header-->
+    <header>
+    <h1>Todo List</h1>
+    <nav>
+      </nav>
+</header>
+
+    <main class="container">
+<!--Filter-->
+    <div class="box">
+        <form action="/" method="GET">
+            <label for="priority">Filter by Priority</label>
+            <select name="priority" onchange="this.form.submit()">
+                <option value="ALL" <%=  filter==="ALL"? "Selected":"" %>>ALL</option>
+                <option value="HIGH" <%= filter==='High'? "Selected":"" %> >High</option>
+                <option value="Medium" <%= filter==="Medium" ? "Selected":"" %> >Medium</option>
+                <option value="LOW" <%= filter==="Low"? "Selected":"" %>>Low</option>
+            </select>
+        </form>
+    </div>
+
+    <!--List-->
+    <div class="box">
+
+       <% for(let i =0; i<enter.length; i++) { %>
+
+        <div class="items">
+            <p><%= enter[i].task %> - <strong><%= enter[i].priority %></strong></p>
+             <!-- Edit Form -->
+            <form action="/edit/<%= enter[i].id %>?_method=PUT" method="POST" style="display:inline;">
+                <input type="text" name="enter" value="<%= enter[i].task %>">
+                <select name="priority">
+                    <option value="High" <%= enter[i].priority==="High"?"selected":"" %>>High</option>
+                    <option value="Medium" <%= enter[i].priority==="Medium"?"selected":"" %>>Medium</option>
+                    <option value="Low" <%= enter[i].priority==="Low"?"selected":"" %>>Low</option>
+                </select>
+                <button type="submit">Update</button>
+            </form>
+
+            <!-- Delete Button -->
+            <form action="/delete/<%= enter[i].id %>?_method=DELETE" method="POST" id="delete">
+                <button type="submit">Delete</button>
+            </form>   
+        </div>
+        <% } %>
+         <!-- Add New Task -->
+        <form action="/" method="POST">
+            <input type="text" name="enter" placeholder="Enter the Task">
+            <select name="priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+</main>
+
+     <!--Footer-->
+    <footer>
+        <h4>© <%= new Date().getFullYear() %> Todo List App</h4>
+    </footer>
+</body>
+</html>
