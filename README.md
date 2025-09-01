@@ -1,21 +1,21 @@
-# 📝 To-Do List Project
+# To-Do List Project
 
 A simple and responsive **To-Do List application** built using **Node.js, Express.js, and EJS**.  
 This project demonstrates **CRUD operations (Create, Read, Update, Delete)** with task filtering based on priority (High, Medium, Low).
 
 ---
 
-## 🚀 Features
+## Features
 
-- ➕ Add tasks with priority (High, Medium, Low)  
-- ✏️ Edit existing tasks  
-- ❌ Delete tasks  
-- 🔍 Filter tasks by priority  
-- 📱 Responsive UI with clean layout  
-- ⚡ Runs on Node.js with EJS templating  
+-  Add tasks with priority (High, Medium, Low)  
+-  Edit existing tasks  
+- Delete tasks  
+-  Filter tasks by priority  
+-  Responsive UI with clean layout  
+-  Runs on Node.js with EJS templating  
 
 ---
-## 📂 Project Structure
+##  Project Structure
 To-Do-List-Node\
 │
 ├── public/ # Static assets (CSS, JS, images)
@@ -32,7 +32,7 @@ To-Do-List-Node\
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Backend**: Node.js, Express.js  
 - **Templating Engine**: EJS  
