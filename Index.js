@@ -55,7 +55,7 @@ app.put('/edit/:id', function(req, res){
 
 app.delete('/delete/:id', function(req, res){
     const id = parseInt(req.params.id);
-    const Item = Items.filter(t => t.id !== id);
+    Items = Items.filter(t => t.id !== id);
     res.redirect('/');
 });
 app.listen(9000, function(){
