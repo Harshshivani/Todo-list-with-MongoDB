@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
     <title>Document</title>
 </head>
 <body>
@@ -37,33 +41,35 @@
         <div class="items">
             <p><%= enter[i].task %> - <strong><%= enter[i].priority %></strong></p>
              <!-- Edit Form -->
-            <form action="/edit/<%= enter[i].id %>?_method=PUT" method="POST" style="display:inline;">
+            <form action="/edit/<%= enter[i].id %>?_method=PUT" method="POST" class="formItem"">
                 <input type="text" name="enter" value="<%= enter[i].task %>">
                 <select name="priority">
                     <option value="High" <%= enter[i].priority==="High"?"selected":"" %>>High</option>
                     <option value="Medium" <%= enter[i].priority==="Medium"?"selected":"" %>>Medium</option>
                     <option value="Low" <%= enter[i].priority==="Low"?"selected":"" %>>Low</option>
                 </select>
-                <button type="submit">Update</button>
+                <button type="submit" class="submit"><i class="fa-solid fa-file-pen fa-beat"></i></button>
             </form>
-
             <!-- Delete Button -->
             <form action="/delete/<%= enter[i].id %>?_method=DELETE" method="POST" id="delete">
-                <button type="submit">Delete</button>
+                <button type="submit" class="delete"><i class="fa-solid fa-delete-left fa-beat"></i></button>
             </form>   
         </div>
         <% } %>
+        
+    </div>
+    <div class="add">
          <!-- Add New Task -->
-        <form action="/" method="POST">
+        <form action="/" method="POST" class="Add">
             <input type="text" name="enter" placeholder="Enter the Task">
             <select name="priority">
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
             </select>
-            <button type="submit">Add</button>
+            <button type="submit" class="submit"><i class="fa-duotone fa-solid fa-square-plus fa-bounce"></i></button>
         </form>
-    </div>
+        </div>
 </main>
 
      <!--Footer-->
