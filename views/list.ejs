@@ -12,6 +12,9 @@
 </head>
 <body>
 
+    <% if(AlertMsg){ %>
+        <script>alert("<%= AlertMsg %>");</script>
+    <% } %>
     <!--Header-->
     <header>
     <h1>Todo List</h1>
@@ -25,10 +28,10 @@
         <form action="/" method="GET">
             <label for="priority">Filter by Priority</label>
             <select name="priority" onchange="this.form.submit()">
-                <option value="ALL" <%=  filter==="ALL"? "Selected":"" %>>ALL</option>
-                <option value="HIGH" <%= filter==='High'? "Selected":"" %> >High</option>
-                <option value="Medium" <%= filter==="Medium" ? "Selected":"" %> >Medium</option>
-                <option value="LOW" <%= filter==="Low"? "Selected":"" %>>Low</option>
+                <option value="all" <%=  filter==="all"? "Selected":"" %>>ALL</option>
+                <option value="high" <%= filter==='high'? "Selected":"" %> >High</option>
+                <option value="medium" <%= filter==="medium" ? "Selected":"" %> >Medium</option>
+                <option value="low" <%= filter==="low"? "Selected":"" %>>Low</option>
             </select>
         </form>
     </div>
@@ -39,10 +42,10 @@
        <% for(let i =0; i<enter.length; i++) { %>
 
         <div class="items">
-            <p><%= enter[i].task %> - <strong><%= enter[i].priority %></strong></p>
+            <p><%= enter[i].name %> - <strong><%= enter[i].priority %></strong></p>
              <!-- Edit Form -->
-            <form action="/edit/<%= enter[i].id %>?_method=PUT" method="POST" class="formItem"">
-                <input type="text" name="enter" value="<%= enter[i].task %>">
+            <form action="/edit/<%= enter[i]._id %>?_method=PUT" method="POST" class="formItem"">
+                <input type="text" name="enter" value="<%= enter[i].name %>">
                 <select name="priority">
                     <option value="High" <%= enter[i].priority==="High"?"selected":"" %>>High</option>
                     <option value="Medium" <%= enter[i].priority==="Medium"?"selected":"" %>>Medium</option>
@@ -51,7 +54,7 @@
                 <button type="submit" class="submit"><i class="fa-solid fa-file-pen fa-beat"></i></button>
             </form>
             <!-- Delete Button -->
-            <form action="/delete/<%= enter[i].id %>?_method=DELETE" method="POST" id="delete">
+            <form action="/delete/<%= enter[i]._id %>?_method=DELETE" method="POST" id="delete">
                 <button type="submit" class="delete"><i class="fa-solid fa-delete-left fa-beat"></i></button>
             </form>   
         </div>

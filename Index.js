@@ -1,63 +1,120 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
-
+const express = require("express");
+const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
+const mongoose = require("mongoose");
 
 const app = express();
 
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use(express.urlencoded({extended:true}));
-app.use(methodOverride('_method'));
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
-let Items = [] ;
-let count = 1;
+mongoose.connect("mongodb+srv://harshmishra37992_db_user:YtVX9SsNjnAn1uGm@harshdb.k1p6ncj.mongodb.net/?retryWrites=true&w=majority&appName=HarshDB");
 
-app.get('/', function(req,res){
-    const filter = req.query.priority || 'ALL';
-    let filterItems = Items;
-
-    if(filter != 'ALL'){
-        filterItems = Items.filter(Item => Item.priority.toLowerCase() === filter.toLowerCase());
-    }
-    res.render('list', {enter : filterItems, filter: filter});
+const FirstSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  priority: String,
 });
 
-app.post('/', function(req,res){
-    
-    console.log(req.body.enter);
-    const task = req.body.enter;
+const dbitem = mongoose.model("task", FirstSchema);
+// const item1 = new dbitem({
+//   name: "Learn Node.js",
+//   priority: "High"
+// });
+// const item2 = new dbitem({
+//   name: "learn DevOps",
+//   priority: "Medium"
+// });
+// const item3 = new dbitem({
+//   name: "Learn to ride a bike",
+//   priority: "Low"
+// });
+
+// dbitem.insertMany([item1, item2, item3]);
+// let Items = [];
+// let count = 1;
+
+app.get("/", async function (req, res) {
+  try {
+    const foundItems = await dbitem.find({});
+    const filter = (req.query.priority || "all").toLowerCase();
+    const AlertMsg = req.query.AlertMsg || "";
+
+    let filterItems = foundItems;
+
+    if (filter !== "all") {
+      filterItems = foundItems.filter(
+        (item) =>
+          item.priority && item.priority.toLowerCase() === filter.toLowerCase()
+      );
+    }
+    res.render("list", {
+      enter: filterItems,
+      filter: filter,
+      AlertMsg: AlertMsg,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/", async function (req, res) {
+  try {
+    const ItemName = req.body.enter;
     const priority = req.body.priority;
 
-    if(!task.trim()){
-        return res.send("<script>alert('Task Cannot be empty'); window.location='/'</script>");
+    if (!ItemName || !ItemName.trim()) {
+      return res.redirect("/?AlertMsg= Please enter the task first :");
     }
 
+    const newItem = new dbitem({ name: ItemName, priority: priority });
+    await newItem.save();
 
-    Items.push({id: count++, task: task, priority: priority});
-    res.redirect('/');
-    
+    res.redirect("/?AlertMsg= Item Added in the Todo List Successfully");
+  } catch (err) {
+    console.log(err);
+  }
+  //   console.log(req.body.enter);
+  //   const task = req.body.enter;
+  //   const priority = req.body.priority;
+
+  //   if (!task.trim()) {
+  //     return res.send(
+  //       "<script>alert('Task Cannot be empty'); window.location='/'</script>"
+  //     );
+  //   }
+
+  //   Items.push({ id: count++, task: task, priority: priority });
+  //   res.redirect("/");
 });
 
-app.put('/edit/:id', function(req, res){
-    const id = parseInt(req.params.id);
+app.put("/edit/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
     const UpdateItem = req.body.enter;
     const UpdatePriority = req.body.priority;
 
-    const Item = Items.find(t => t.id == id);
+    await dbitem.findByIdAndUpdate(id, {
+      name: UpdateItem,
+      priority: UpdatePriority,
+    });
 
-    if(Item){
-        Item.task = UpdateItem;
-        Item.priority = UpdatePriority;
-    }
-    res.redirect('/');
+    res.redirect("/?AlertMsg= Item Updated Successfully");
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-app.delete('/delete/:id', function(req, res){
-    const id = parseInt(req.params.id);
-    Items = Items.filter(t => t.id !== id);
-    res.redirect('/');
+app.delete("/delete/:id", async function (req, res) {
+  try {
+    const id = req.params.id;
+    await dbitem.findByIdAndDelete(id);
+    res.redirect("/?AlertMsg= Item Deleted Successfully");
+  } catch (err) {
+    console.log(err);
+  }
 });
-app.listen(9000, function(){
-    console.log('Server is started');
+app.listen(9000, function () {
+  console.log("Server is started");
 });
