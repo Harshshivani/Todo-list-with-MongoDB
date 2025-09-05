@@ -42,13 +42,13 @@ To-Do-List-Node\
 
 ---
 
----
-
 ## Steps For Setup the Project
 - **Clone the Repository**: git clone https://github.com/Harshshivani/Todo-list-with-MongoDB.git
 - **Install Dependencies**: npm install
 - **Configure Enviroment Variables**: (MONGI_URL:"", PORT:'')
 - **Start the Project**: npm start
+
+---
 
 # Deployed on Render 
 # For Live Demo click on the below url:
