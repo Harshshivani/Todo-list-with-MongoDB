@@ -10,7 +10,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-mongoose.connect(process.env.MONGO_URL{
+mongoose.connect(process.env.MONGO_URL,{
     useNewUrlParser: true,
   useUnifiedTopology: true
 })
