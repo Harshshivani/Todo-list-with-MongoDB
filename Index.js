@@ -10,7 +10,9 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-mongoose.connect("mongodb+srv://harshmishra37992_db_user:YtVX9SsNjnAn1uGm@harshdb.k1p6ncj.mongodb.net/?retryWrites=true&w=majority&appName=HarshDB");
+mongoose.connect(process.env.MONGO_URL)
+.then(()=> console.log('Databse connected successfully'))
+.catch(err=>( console.log(err)));
 
 const FirstSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -115,6 +117,7 @@ app.delete("/delete/:id", async function (req, res) {
     console.log(err);
   }
 });
-app.listen(9000, function () {
-  console.log("Server is started");
+const PORT = process.env.PORT || 9000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
